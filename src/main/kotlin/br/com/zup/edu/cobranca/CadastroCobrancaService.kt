@@ -25,13 +25,14 @@ open class CadastroCobrancaService(
             throw NotFoundException("Chave não cadastrada no Banco Central")
 
         val recebedor = responseBCB.body().let {
-            Recebedor(
-                nomeCompleto = it.owner.name,
-                cpf = formata(it.owner.taxIdNumber),
-                instituicaoFinanceira = it.bankAccount.participant
-            )
+            recebedorResponsitorio.findByCpf(formata(it!!.owner.taxIdNumber)).orElseGet{
+                recebedorResponsitorio.save(Recebedor(
+                    nomeCompleto = it.owner.name,
+                    cpf = formata(it.owner.taxIdNumber),
+                    instituicaoFinanceira = it.bankAccount.participant
+                ))
+            }
         }
-        recebedorResponsitorio.save(recebedor)
 
         val cobranca = Cobranca(novaCobranca.pix, novaCobranca.valor, novaCobranca.tipoCobranca!!, recebedor)
 

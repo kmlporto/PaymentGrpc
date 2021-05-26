@@ -6,4 +6,6 @@ import java.util.*
 
 @Repository
 interface RecebedorResponsitorio: JpaRepository<Recebedor, UUID> {
+
+    fun findByCpf(cpf: String): Optional<Recebedor>
 }
