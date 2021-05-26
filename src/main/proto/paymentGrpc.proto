@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "br.com.zup.edu";
+option java_outer_classname = "PaymentGrpc";
+option objc_class_prefix = "HLW";
+import "google/protobuf/timestamp.proto";
+
+package br.com.zup.edu;
+
+service PaymentService {
+  rpc geraCobranca (PayGrpcCobrancaRequest) returns (PayGrpcCobrancaResponse) {}
+}
+
+message PayGrpcCobrancaRequest {
+  string pix = 1;
+  TipoCobranca tipo = 2;
+  int64 valor = 3;
+  string descricao = 4;
+}
+
+enum TipoCobranca{
+  UNKNOWN_TIPO_COBRANCA = 0;
+  ESTATICA = 1;
+  DINAMICA = 2;
+}
+
+message Recebedor{
+  string nomeCompleto = 1;
+  string cpf = 2;
+  string instituicaoFinanceira = 3;
+}
+
+message PayGrpcCobrancaResponse {
+  string idCobracanca = 1;
+  TipoCobranca tipo = 2;
+  string chaveRecebedor = 3;
+  Recebedor recebedor = 4;
+  google.protobuf.Timestamp criadoEm = 7;
+}
