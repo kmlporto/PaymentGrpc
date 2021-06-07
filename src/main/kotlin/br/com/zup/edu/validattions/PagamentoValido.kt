@@ -1,7 +1,6 @@
 package br.com.zup.edu.validattions
 
-import br.com.zup.edu.TipoCobranca
-import br.com.zup.edu.cobranca.NovaCobranca
+import br.com.zup.edu.cobranca.NovoPagamento
 import io.micronaut.core.annotation.AnnotationValue
 import io.micronaut.validation.validator.constraints.ConstraintValidator
 import io.micronaut.validation.validator.constraints.ConstraintValidatorContext
@@ -14,27 +13,28 @@ import kotlin.reflect.KClass
 @MustBeDocumented
 @Target(AnnotationTarget.CLASS)
 @Retention(AnnotationRetention.RUNTIME)
-@Constraint(validatedBy = [PaymentValidValidator::class])
-annotation class PaymentValid(
-    val message: String = "cobrança inválida",
+@Constraint(validatedBy = [PagamentoValidoValidator::class])
+annotation class PagamentoValido (
+    val message: String = "pagamento inválido",
     val groups: Array<KClass<Any>> = [],
     val payload: Array<KClass<Payload>> = [],
 )
 
+
 @Singleton
-class PaymentValidValidator: ConstraintValidator<PaymentValid, NovaCobranca> {
+class PagamentoValidoValidator: ConstraintValidator<PagamentoValido, NovoPagamento> {
 
     override fun isValid(
-        value: NovaCobranca?,
-        annotationMetadata: AnnotationValue<PaymentValid>,
+        clazz: NovoPagamento?,
+        annotationMetadata: AnnotationValue<PagamentoValido>,
         context: ConstraintValidatorContext
     ): Boolean {
-        if(value == null)
+        if(clazz == null)
             return false
 
-        if(value.tipoCobranca!!.name == TipoCobranca.DINAMICA.name && value.valor!!.equals(BigDecimal.ZERO)){
+        if(clazz.valor == BigDecimal.ZERO)
             return false
-        }
+
         return true
     }
 

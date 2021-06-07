@@ -10,12 +10,13 @@ package br.com.zup.edu;
 
 service PaymentService {
   rpc geraCobranca (PayGrpcCobrancaRequest) returns (PayGrpcCobrancaResponse) {}
+  rpc efetuaPagamento (PayGrpcPagamentoRequest) returns (PayGrpcPagamentoResponse) {}
 }
 
 message PayGrpcCobrancaRequest {
   string pix = 1;
   TipoCobranca tipo = 2;
-  int64 valor = 3;
+  string valor = 3;
   string descricao = 4;
 }
 
@@ -36,5 +37,28 @@ message PayGrpcCobrancaResponse {
   TipoCobranca tipo = 2;
   string chaveRecebedor = 3;
   Recebedor recebedor = 4;
-  google.protobuf.Timestamp criadoEm = 7;
+  google.protobuf.Timestamp criadoEm = 5;
+}
+
+message PayGrpcPagamentoRequest{
+  string idCobranca = 1;
+  string chavePagador = 2;
+  string chaveRecebedor = 3;
+  TipoCobranca tipoCobranca = 4;
+  string valor = 5;
+}
+
+message PessoaResponse{
+  string chavePix = 1;
+  string nomeCompleto = 2;
+  string cpf = 3;
+  string instituicaoFinanceira = 4;
+}
+
+message PayGrpcPagamentoResponse{
+  string idTransacao = 1;
+  PessoaResponse pagador = 2;
+  PessoaResponse recebedor = 3;
+  google.protobuf.Timestamp pagoEm = 4;
+  string valorPago = 5;
 }

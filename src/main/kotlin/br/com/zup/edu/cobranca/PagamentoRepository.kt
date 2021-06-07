@@ -5,7 +5,5 @@ import io.micronaut.data.jpa.repository.JpaRepository
 import java.util.*
 
 @Repository
-interface RecebedorResponsitorio: JpaRepository<Recebedor, UUID> {
-
-    fun findByCpf(cpf: String): Optional<Recebedor>
+interface PagamentoRepository : JpaRepository<Pagamento, UUID>{
 }

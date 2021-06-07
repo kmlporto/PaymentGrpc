@@ -5,7 +5,7 @@ import javax.persistence.*
 import javax.validation.constraints.NotBlank
 
 @Entity
-class Recebedor(
+class Pessoa(
     @field:NotBlank
     @Column(nullable = false)
     val nomeCompleto: String,
@@ -25,5 +25,8 @@ class Recebedor(
 
     @OneToMany(mappedBy = "recebedor", cascade = [CascadeType.PERSIST])
     lateinit var cobrancas:List<Cobranca>
+
+    @OneToMany(mappedBy = "pagador", cascade = [CascadeType.PERSIST])
+    lateinit var pagamentos:List<Pagamento>
 
 }

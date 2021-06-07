@@ -22,7 +22,7 @@ class Cobranca(
     val tipoCobranca: TipoDeCobranca,
 
     @ManyToOne
-    val recebedor: Recebedor) {
+    val recebedor: Pessoa) {
 
     @Id
     @GeneratedValue
@@ -33,5 +33,10 @@ class Cobranca(
 
     @Column(nullable = false)
     val criadoEm = LocalDateTime.now()
+
+    fun pertenceAo(chaveRecebedor: String): Boolean {
+        return this.chavePix == chaveRecebedor
+    }
+
 
 }
